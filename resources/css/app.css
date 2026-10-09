@@ -1,0 +1,167 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views';
+@source '../../app/Livewire';
+
+/* ============================================================
+   LUMECO — Commercial Cleaning Services
+   Bright, white-primary palette: royal blue + green accents on white,
+   matching a friendly corporate cleaning-company look.
+   All colors OKLCH. Contrast verified: body >= 4.5:1.
+   (navy and teal tokens are retained for the internal admin only.)
+   ============================================================ */
+
+@theme {
+    /* Type */
+    --font-sans: 'Mulish', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Poppins', 'Mulish', ui-sans-serif, system-ui, sans-serif;
+
+    /* --- Blue (primary) --- */
+    --color-blue-50: oklch(0.972 0.011 255);
+    --color-blue-100: oklch(0.93 0.03 255);
+    --color-blue-200: oklch(0.86 0.055 258);
+    --color-blue-500: oklch(0.54 0.155 260);
+    --color-blue-600: oklch(0.48 0.158 261); /* primary buttons / bands */
+    --color-blue-700: oklch(0.42 0.148 262); /* hover / footer */
+    --color-blue-800: oklch(0.36 0.12 263);
+
+    /* --- Green (accent) --- */
+    --color-green-500: oklch(0.68 0.165 148);
+    --color-green-600: oklch(0.605 0.15 149); /* accent buttons */
+    --color-green-700: oklch(0.53 0.13 150);
+
+    /* --- Neutrals (content) --- */
+    --color-paper: oklch(1 0 0);            /* pure white body */
+    --color-surface: oklch(0.985 0.004 250); /* faint cool card tint */
+    --color-surface-2: oklch(0.968 0.006 252); /* light section band */
+    --color-line: oklch(0.912 0.008 255);   /* hairline borders */
+    --color-ink: oklch(0.36 0.02 260);      /* body text on white */
+    --color-ink-strong: oklch(0.20 0.02 262); /* near-black headings */
+    --color-muted: oklch(0.50 0.016 260);   /* secondary text */
+
+    /* Semantic aliases */
+    --color-brand: var(--color-blue-600);
+
+    /* --- Navy / Teal (internal admin only) --- */
+    --color-navy-950: oklch(0.17 0.042 255);
+    --color-navy-900: oklch(0.21 0.048 255);
+    --color-navy-800: oklch(0.26 0.052 255);
+    --color-navy-700: oklch(0.32 0.055 256);
+    --color-teal-300: oklch(0.86 0.085 195);
+    --color-teal-400: oklch(0.80 0.104 195);
+    --color-teal-700: oklch(0.54 0.10 204);
+
+    /* Motion */
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Z-scale */
+    --z-header: 50;
+    --z-overlay: 60;
+    --z-toast: 70;
+}
+
+@layer base {
+    [x-cloak] {
+        display: none !important;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+    }
+
+    body {
+        background-color: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: var(--font-display);
+        color: var(--color-ink-strong);
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+    }
+
+    p {
+        text-wrap: pretty;
+    }
+
+    ::selection {
+        background: var(--color-blue-600);
+        color: #fff;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-blue-600);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+}
+
+@layer components {
+    /* Reveal-on-scroll: content is visible by default, motion enhances it */
+    .reveal {
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .js .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition:
+                opacity 0.7s var(--ease-out-quint),
+                transform 0.7s var(--ease-out-quint);
+        }
+
+        .js .reveal.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .js .reveal-stagger > * {
+            opacity: 0;
+            transform: translateY(18px);
+            transition:
+                opacity 0.6s var(--ease-out-quint),
+                transform 0.6s var(--ease-out-quint);
+        }
+
+        .js .reveal-stagger.is-visible > * {
+            opacity: 1;
+            transform: none;
+        }
+    }
+}
+
+/* Fluid section rhythm */
+.section-y {
+    padding-block: clamp(4.5rem, 9vw, 8.5rem);
+}
+
+/* The teal spark — brand jewelry. Slow, subtle twinkle. */
+@media (prefers-reduced-motion: no-preference) {
+    .spark-twinkle {
+        animation: spark-twinkle 4.5s var(--ease-out-quint) infinite;
+    }
+    @keyframes spark-twinkle {
+        0%, 100% { opacity: 0.85; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.08); }
+    }
+}
+
+/* Hairline top rule used on editorial feature items */
+.rule-top {
+    border-top: 1px solid var(--color-line);
+}
